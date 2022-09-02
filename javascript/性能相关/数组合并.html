@@ -1,0 +1,49 @@
+<!--
+ * @Author: wangshanshan
+ * @Date: 2022-09-02 12:25:21
+ * @LastEditTime: 2022-09-02 12:28:23
+ * @LastEditors: wangshanshan
+ * @Description: 
+ * @FilePath: /project-collect/javascript/性能相关/test.html
+ * 记得注释
+-->
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8'>
+  <title>Title</title>
+</head>
+<body>
+<script>
+  let b = []
+  let a = []
+  for(let i = 1;i < 100000; i++){ b.push('performance')}
+  for(let i = 1;i < 10000; i++){ b.push('performance')}
+  console.log(performance.now())
+  // 速度最优
+  a = a.concat(b)
+  console.log(performance.now())
+
+  console.log('***************')
+
+  console.log(performance.now())
+  // 耗时最长，性能很差
+  a = [...a, ...b]
+  console.log(performance.now())
+
+  console.log('***************')
+  
+  console.log(performance.now())
+  // 耗时较短。优点：不会创建新的内存。缺点：数据量太多可能会造成内存溢出
+  a.push.apply(a, b)
+  console.log(performance.now())
+
+  console.log('***************')
+  
+  console.log(performance.now())
+  // 耗时较长。优缺点同上
+  for(let i = 1;i < b.length; i++){ a.push('performance')}
+  console.log(performance.now())
+</script>
+</body>
+</html>
