@@ -1,0 +1,20 @@
+<script>
+  // Map 与 WeakMap 的区别：
+
+  // 1、WeakMap key仅接受对象。这意味着我们不能将基本类型用作 WeakMap 的键
+  const attrs = new WeakMap()
+  attrs.set('color', 'plum') // error
+
+  // 2、WeakMap 不会阻止在没有对键的引用时对键进行垃圾收集，
+  //    Map 无限期地维护对键和值的引用。一旦创建了键和值，它们将占用内存，即使没有对它们的引用，也不会被垃圾收集。这可能会导致内存泄漏问题。
+
+  // WeakMap使用方式(例如埋点监控中对元素的监听操作)：
+  const clickPv = (el) => {
+    el.$$handleMonitor = event => {
+      // xxxx
+    }
+    const elEvent = new WeakMap()
+    elEvent.set(el, el.$$handleMonitor)
+    el.addEventListener('click', this.elEvent.get(el), false)
+  }
+</script>
